@@ -3,6 +3,7 @@ bounding box in EPSG:4326
 which STAC API to use
   - NRCan (Canada)
   - Microsoft (USA)
+GDAL fillnodata maxdistance
 
 SETUP
 download proj data (https://cdn.proj.org/)
