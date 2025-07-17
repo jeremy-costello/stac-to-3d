@@ -1,0 +1,50 @@
+INPUTS
+bounding box in EPSG:4326
+which STAC API to use
+  - NRCan (Canada)
+  - Microsoft (USA)
+
+SETUP
+download proj data (https://cdn.proj.org/)
+
+STEP 1: download DTM and DSM from STAC API
+docker container
+micromamba environment
+python script
+  - STAC download
+  - data validation
+  - get CRS of DTM and DSM
+  - make sure CRS are the same
+  
+
+STEP 2: generate building geometries
+docker container
+micromamba environment
+shell script
+  - convert buildings to CRS with qgis (?)
+  - get building bottom/top with qgis
+  - create postgres table with ogr2ogr
+postgres script
+  - add base_z and height columns
+  - calculate base_z and height
+  - create building geometry
+  - create index
+
+STEP 3: generate building 3D tiles
+docker container
+https://hub.docker.com/r/geodan/pg2b3dm
+
+STEP 4: fill/warp DTM and DSM
+docker container
+https://hub.docker.com/r/geodan/terrainwarp
+
+STEP 5: generate 3D terrain
+docker container
+https://hub.docker.com/r/gaia3d/mago-3d-terrainer
+
+STEP 6: serve 3D tiles and terrain
+docker container
+micromamba environment
+Cesium HTML file
+serve with python
+
