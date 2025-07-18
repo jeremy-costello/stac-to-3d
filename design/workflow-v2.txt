@@ -1,0 +1,53 @@
+INPUTS
+bounding box in EPSG:4326
+which STAC API to use
+  - NRCan (Canada)
+  - Microsoft (USA)
+GDAL fillnodata maxdistance
+pg2b3dm settings
+mago 3d terrainer settings
+port to serve at
+
+SETUP
+download proj data (https://cdn.proj.org/)
+
+STEP 1: download DTM and DSM from STAC API
+docker container
+micromamba environment
+python script
+  - STAC download
+  - data validation
+  - get CRS of DTM and DSM
+  - make sure CRS are the same
+output: DTM and DSM in data volume
+  
+STEP 2: generate building geometries and fill/warp DTM and DSM
+docker compose
+A. postgis
+B. micromamba environment
+shell script
+  - fill rasters and convert to 4326+4979 with gdal
+  - convert buildings to 4326+4979 with ogr2ogr
+  - get building bottom/top with qgis
+  - create postgres table with ogr2ogr
+postgres script
+  - add base_z and height columns
+  - calculate base_z and height
+  - create building geometry
+  - create index
+download pg2b3dm
+https://github.com/Geodan/pg2b3dm/releases
+run pg2b3dm
+output: building 3D tiles in data volume
+
+STEP 3: generate 3D terrain
+docker container
+https://hub.docker.com/r/gaia3d/mago-3d-terrainer
+output: raster 3D terrain in data volume
+
+STEP 4: serve 3D tiles and terrain
+docker container
+micromamba environment
+Cesium HTML file
+serve with python
+
