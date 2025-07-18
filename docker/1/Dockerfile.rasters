@@ -1,0 +1,13 @@
+FROM mambaorg/micromamba:2-debian12
+
+USER root
+
+WORKDIR /working
+
+COPY env_rasters.yml .
+RUN micromamba install -f env_rasters.yml -y && \
+    micromamba clean --all --yes
+
+COPY rasters.py .
+
+CMD ["python", "rasters.py", "--api=nrcan", "--bbox=-52.695408,47.570156,-52.681074,47.575426"]

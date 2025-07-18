@@ -1,0 +1,21 @@
+services:
+  postgis:
+    image: postgis/postgis:17-3.5-alpine
+    container_name: postgis
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+
+  building-3d-tiler:
+    build:
+      context: .
+      dockerfile: Dockerfile.buildings
+    container_name: building-3d-tiler
+    depends_on:
+      - postgis
+    environment:
+      - DOTNET_RUNNING_IN_CONTAINER=true
+      - PGPASSWORD=postgres
+    volumes:
+      - ../../data:/working/data

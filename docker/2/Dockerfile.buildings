@@ -1,0 +1,23 @@
+FROM mambaorg/micromamba:2-debian12
+
+USER root
+
+WORKDIR /working
+
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+        curl \
+        unzip \
+        libicu-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY env_buildings.yml .
+RUN micromamba install -f env_buildings.yml -y && \
+    micromamba clean --all --yes
+
+COPY buildings.sh .
+COPY buildings.sql .
+
+RUN chmod +x buildings.sh
+
+CMD ["./buildings.sh"]

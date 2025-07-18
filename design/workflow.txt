@@ -4,6 +4,9 @@ which STAC API to use
   - NRCan (Canada)
   - Microsoft (USA)
 GDAL fillnodata maxdistance
+pg2b3dm settings
+mago 3d terrainer settings
+port to serve at
 
 SETUP
 download proj data (https://cdn.proj.org/)
@@ -16,13 +19,16 @@ python script
   - data validation
   - get CRS of DTM and DSM
   - make sure CRS are the same
+output: rasters in data volume
   
-
-STEP 2: generate building geometries
-docker container
-micromamba environment
+STEP 2: generate building geometries and fill/warp DTM and DSM
+docker compose
+A. postgis
+B. micromamba environment
 shell script
-  - convert buildings to CRS with qgis (?)
+  - fill rasters and convert to 4326+4979 with gdal
+  - download buildings with overturemaps
+  - convert buildings to 4326+4979 with ogr2ogr
   - get building bottom/top with qgis
   - create postgres table with ogr2ogr
 postgres script
@@ -30,22 +36,22 @@ postgres script
   - calculate base_z and height
   - create building geometry
   - create index
+download pg2b3dm
+https://github.com/Geodan/pg2b3dm/releases
+run pg2b3dm
+output: building 3D tiles, filled & warped rasters in data volume
 
-STEP 3: generate building 3D tiles
-docker container
-https://hub.docker.com/r/geodan/pg2b3dm
-
-STEP 4: fill/warp DTM and DSM
-docker container
-https://hub.docker.com/r/geodan/terrainwarp
-
-STEP 5: generate 3D terrain
+STEP 3: generate 3D terrain
 docker container
 https://hub.docker.com/r/gaia3d/mago-3d-terrainer
+output: raster 3D terrain in data volume
 
-STEP 6: serve 3D tiles and terrain
+STEP 4: serve 3D tiles and terrain
 docker container
 micromamba environment
 Cesium HTML file
 serve with python
 
+STEP 5: optional gzipping?
+docker container
+gzip the terrain files

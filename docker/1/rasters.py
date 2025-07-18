@@ -105,8 +105,8 @@ def main():
         api_link = "https://planetarycomputer.microsoft.com/api/stac/v1"
         sign_items = True
         collections = [
-            ("3dep-lidar-dsm", "data", "/working/data/mpc_dsm.tif"),
-            ("3dep-lidar-dtm", "data", "/working/data/mpc_dtm.tif"),
+            ("3dep-lidar-dsm", "data", "/working/data/dsm.tif"),
+            ("3dep-lidar-dtm", "data", "/working/data/dtm.tif"),
         ]
         for col, asset, out in collections:
             fetch_and_merge(api_link, col, asset, bbox, sign_items, out)
@@ -116,12 +116,12 @@ def main():
         sign_items = False
 
         preferred_collections = [
-            ("hrdem-mosaic-1m", "dsm", "/working/data/nrcan_dsm.tif"),
-            ("hrdem-mosaic-1m", "dtm", "/working/data/nrcan_dtm.tif"),
+            ("hrdem-mosaic-1m", "dsm", "/working/data/dsm.tif"),
+            ("hrdem-mosaic-1m", "dtm", "/working/data/dtm.tif"),
         ]
         fallback_collections = [
-            ("hrdem-mosaic-2m", "dsm", "/working/data/nrcan_dsm.tif"),
-            ("hrdem-mosaic-2m", "dtm", "/working/data/nrcan_dtm.tif"),
+            ("hrdem-mosaic-2m", "dsm", "/working/data/dsm.tif"),
+            ("hrdem-mosaic-2m", "dtm", "/working/data/dtm.tif"),
         ]
 
         for (pref_col, pref_asset, pref_out), (fb_col, fb_asset, fb_out) in zip(preferred_collections, fallback_collections):
