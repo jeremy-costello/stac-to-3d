@@ -26,6 +26,9 @@ CREATE TABLE buildings AS
     id, fid, subtype, "class", "names.primary"
   FROM
     buildings_draped
+  WHERE base_z IS NOT NULL
+    AND calculated_height IS NOT NULL
+    AND calculated_height > 0
 );
 
-CREATE INDEX ON buildings USING gist(st_centroid(st_envelope(geom)));
+CREATE INDEX ON buildings USING gist(ST_Centroid(ST_Envelope(geom)));
