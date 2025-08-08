@@ -33,10 +33,10 @@
       baseLayerPicker: false
     });
 
-    // var terrainProvider = new Cesium.CesiumTerrainProvider({
-    //   url : '__TERRAIN_URL__'
-    // });
-    // viewer.scene.terrainProvider = terrainProvider;
+    var terrainProvider = new Cesium.CesiumTerrainProvider({
+      url : '__TERRAIN_URL__'
+    });
+    viewer.scene.terrainProvider = terrainProvider;
     viewer.scene.globe.enableLighting = true;
     viewer.scene.globe.terrainExaggeration = 1;
     viewer.scene.globe.depthTestAgainstTerrain = true;
