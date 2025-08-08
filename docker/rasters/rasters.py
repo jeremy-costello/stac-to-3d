@@ -37,7 +37,7 @@ def fetch_raster(
     stack = stackstac.stack(
         items,
         assets=[asset_name],
-        epsg=4326,
+        epsg=4979,
         resolution=None,
         bounds_latlon=bbox
     )

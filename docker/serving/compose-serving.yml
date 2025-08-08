@@ -1,0 +1,28 @@
+services:
+  serving-dsm:
+    build:
+      context: .
+      dockerfile: Dockerfile.serving
+      args:
+        TERRAIN_TYPE: dsm
+    container_name: serving-dsm
+    ports:
+      - "8080:80"
+    expose:
+      - "80"
+    volumes:
+      - ../../data:/usr/share/nginx/html/data
+
+  serving-dtm:
+    build:
+      context: .
+      dockerfile: Dockerfile.serving
+      args:
+        TERRAIN_TYPE: dtm
+    container_name: serving-dtm
+    ports:
+      - "8081:80"
+    expose:
+      - "80"
+    volumes:
+      - ../../data:/usr/share/nginx/html/data

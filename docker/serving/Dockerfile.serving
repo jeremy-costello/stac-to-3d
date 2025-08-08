@@ -1,0 +1,9 @@
+FROM nginx:alpine
+
+ARG TERRAIN_TYPE
+
+COPY index.html /usr/share/nginx/html/index.html
+
+RUN sed -i "s|__TERRAIN_URL__|./data/terrain/${TERRAIN_TYPE}|g" /usr/share/nginx/html/index.html
+
+CMD ["nginx", "-g", "daemon off;"]
