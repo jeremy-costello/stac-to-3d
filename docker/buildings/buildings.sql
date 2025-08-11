@@ -14,12 +14,11 @@ CREATE TABLE buildings AS
 (
   SELECT
     ST_Transform(
-      ST_GeometryN(
-        CG_Extrude(
-          ST_Force3D(
-            ST_Force2D(geom), base_z
-          ), 0, 0, calculated_height
-        ), 1
+      CG_Extrude(
+        ST_Force3D(
+          ST_Force2D(geom), base_z
+        ),
+        0, 0, calculated_height
       ),
       4979
     ) AS geom,

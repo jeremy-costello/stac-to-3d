@@ -6,7 +6,7 @@ overturemaps download --bbox=-52.695408,47.570156,-52.681074,47.575426 -f geopar
 
 echo "Warping building footprints"
 
-ogr2ogr -f "Parquet" -t_srs EPSG:3857 buildings_warped.geoparquet buildings.geoparquet
+ogr2ogr -f "Parquet" -t_srs EPSG:4326 buildings_warped.geoparquet buildings.geoparquet
 rm buildings.geoparquet
 
 echo "Filling DTM"
@@ -62,7 +62,7 @@ until pg_isready -h postgis -U postgres > /dev/null 2>&1; do
 done
 
 ogr2ogr -f PostgreSQL PG:"host=postgis user=postgres password=postgres dbname=postgres" \
-  -t_srs "EPSG:4326+EPSG:4979" buildings_draped.gpkg
+  buildings_draped.gpkg
 
 rm buildings_draped.gpkg
 
@@ -89,5 +89,7 @@ echo "Generating building tiles"
   -c geom \
   -a fid \
   --add_outlines true
+
+rm -rf /working/data/tiles
 
 mv ./output /working/data/tiles

@@ -10,7 +10,7 @@ docker run \
   gaia3d/mago-3d-terrainer \
   -input /workspace/rasters/dsm \
   -output /workspace/terrain/dsm \
-  -maxDepth 18
+  -maxDepth 16
 
 docker run \
   --rm \
@@ -18,6 +18,7 @@ docker run \
   gaia3d/mago-3d-terrainer \
   -input /workspace/rasters/dtm \
   -output /workspace/terrain/dtm \
-  -maxDepth 18
+  -maxDepth 16
 
+docker compose -f ./docker/serving/compose-serving.yml down
 docker compose -f ./docker/serving/compose-serving.yml up --build
