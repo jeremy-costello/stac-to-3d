@@ -1,8 +1,11 @@
+#!/bin/bash
+set -euo pipefail
+
 dmfw_output_path="/working/data/rasters"
 
 echo "Downloading building footprints"
 
-overturemaps download --bbox=-52.695408,47.570156,-52.681074,47.575426 -f geoparquet --type=building -o buildings.geoparquet
+overturemaps download --bbox="$BBOX" -f geoparquet --type=building -o buildings.geoparquet
 
 echo "Warping building footprints"
 
@@ -25,7 +28,6 @@ QT_QPA_PLATFORM=offscreen qgis_process run native:zonalstatisticsfb \
   --OUTPUT="buildings_draped_temp.gpkg"
 
 rm buildings_warped.geoparquet
-rm $dmfw_output_path/dtm/dtm_filled_warped.tif.aux.xml
 
 echo "Warping DTM"
 
@@ -48,7 +50,6 @@ QT_QPA_PLATFORM=offscreen qgis_process run native:zonalstatisticsfb \
   --OUTPUT="buildings_draped.gpkg"
 
 rm buildings_draped_temp.gpkg
-rm $dmfw_output_path/dsm/dsm_filled_warped.tif.aux.xml
 
 echo "Warping DSM"
 

@@ -1,7 +1,7 @@
-from pystac_client import Client
+import os
 import planetary_computer
+from pystac_client import Client
 import rasterio
-import argparse
 import stackstac
 
 
@@ -66,14 +66,12 @@ def fetch_raster(
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Download and merge rasters from MPC or NRCan STAC APIs.")
-    parser.add_argument("--api", choices=["mpc", "nrcan"], required=True, help="Which STAC API to use: mpc or nrcan")
-    parser.add_argument("--bbox", required=True, help="Bounding box coordinates")
-    args = parser.parse_args()
+    bbox = os.getenv("BBOX")
+    api = os.getenv("API")
 
-    bbox = [float(coord) for coord in args.bbox.split(",")]
+    bbox = [float(coord) for coord in bbox.split(",")]
 
-    if args.api == "mpc":
+    if api == "mpc":
         api_link = "https://planetarycomputer.microsoft.com/api/stac/v1"
         sign_items = True
         collection_template = "3dep-lidar-{dm_type}"
@@ -92,7 +90,7 @@ def main():
                 out_path=out_path
             )
 
-    elif args.api == "nrcan":
+    elif api == "nrcan":
         api_link = "https://datacube.services.geo.ca/stac/api/"
         sign_items = False
         collection = "hrdem-mosaic-1m"  # maybe add fallback to 2m?

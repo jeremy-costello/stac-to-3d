@@ -15,6 +15,7 @@ services:
     depends_on:
       - postgis
     environment:
+      - BBOX=${BBOX}
       - DOTNET_RUNNING_IN_CONTAINER=true
       - PGPASSWORD=postgres
     volumes:

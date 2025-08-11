@@ -10,4 +10,10 @@ RUN micromamba install -f env_rasters.yml -y && \
 
 COPY rasters.py .
 
-CMD ["python", "rasters.py", "--api=nrcan", "--bbox=-52.695408,47.570156,-52.681074,47.575426"]
+ARG BBOX
+ARG API
+
+ENV BBOX=$BBOX
+ENV API=$API
+
+CMD ["python", "rasters.py"]
