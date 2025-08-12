@@ -15,14 +15,14 @@ rm buildings.geoparquet
 echo "Filling DTM"
 
 mkdir -p $dmfw_output_path/dtm
-gdal_fillnodata -q -md 1000 /working/data/dtm.tif dtm_filled.tif
+gdal_fillnodata -q -md 1000 /working/data/dtm.tif /working/data/dtm_filled.tif
 rm /working/data/dtm.tif
 
 echo "Extracting building minimums from DTM"
 
 QT_QPA_PLATFORM=offscreen qgis_process run native:zonalstatisticsfb \
   --INPUT="buildings_warped.geoparquet" \
-  --INPUT_RASTER="dtm_filled.tif" \
+  --INPUT_RASTER="/working/data/dtm_filled.tif" \
   --COLUMN_PREFIX="dtm_" \
   --STATISTICS="5" \
   --OUTPUT="buildings_draped_temp.gpkg"
@@ -31,20 +31,20 @@ rm buildings_warped.geoparquet
 
 echo "Warping DTM"
 
-gdalwarp -q -t_srs EPSG:4326+4979 dtm_filled.tif $dmfw_output_path/dtm/dtm_filled_warped.tif
-rm dtm_filled.tif
+gdal_translate -q -a_srs EPSG:4979 /working/data/dtm_filled.tif $dmfw_output_path/dtm/dtm_filled_warped.tif
+rm /working/data/dtm_filled.tif
 
 echo "Filling DSM"
 
 mkdir -p $dmfw_output_path/dsm
-gdal_fillnodata -q -md 1000 /working/data/dsm.tif dsm_filled.tif
+gdal_fillnodata -q -md 1000 /working/data/dsm.tif /working/data/dsm_filled.tif
 rm /working/data/dsm.tif
 
 echo "Extracting building maximums from DSM"
 
 QT_QPA_PLATFORM=offscreen qgis_process run native:zonalstatisticsfb \
   --INPUT="buildings_draped_temp.gpkg" \
-  --INPUT_RASTER="dsm_filled.tif" \
+  --INPUT_RASTER="/working/data/dsm_filled.tif" \
   --COLUMN_PREFIX="dsm_" \
   --STATISTICS="6" \
   --OUTPUT="buildings_draped.gpkg"
@@ -53,8 +53,10 @@ rm buildings_draped_temp.gpkg
 
 echo "Warping DSM"
 
-gdalwarp -q -t_srs EPSG:4326+4979 dsm_filled.tif $dmfw_output_path/dsm/dsm_filled_warped.tif
-rm dsm_filled.tif
+gdal_translate -q -a_srs EPSG:4979 /working/data/dsm_filled.tif $dmfw_output_path/dsm/dsm_filled_warped.tif
+rm /working/data/dsm_filled.tif
+
+rm /working/data/*.aux.xml
 
 echo "Creating database"
 
